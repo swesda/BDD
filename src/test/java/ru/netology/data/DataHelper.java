@@ -17,9 +17,13 @@ public class DataHelper {
         return new AuthInfo("vasya", "qwerty123");
     }
 
+    public static AuthInfo getOtherAuthInfo(AuthInfo original) {
+        return new AuthInfo("petya", "123qwerty");
+    }
+
     @Value
     public static class VerificationCode {
-        private String code;
+        String code;
     }
 
     public static VerificationCode getVerificationCodeFor(AuthInfo authInfo) {
@@ -28,14 +32,11 @@ public class DataHelper {
 
     @Value
     public static class Card {
-        private String dataTestId;
-        private String number;
+        String number;
+        String balance;
+        public String id;
     }
 
-    public static Card getFirstCard() {
-        return new Card("92df3f1c-a033-48e6-8390-206f6b1f56c0", "5559 0000 0000 0001");
-    }
-    public static Card getSecondCard() {
-        return new Card("0f3f5c2a-249e-4c3d-8287-09f7a039391d","5559 0000 0000 0002");
-    }
+    public static Card[] cards = {new Card("5559_0000_0000_0001", "10_000", "92df3f1c-a033-48e6-8390-206f6b1f56c0"),
+            new Card("5559_0000_0000_0002", "10_000", "0f3f5c2a-249e-4c3d-8287-09f7a039391d")};
 }

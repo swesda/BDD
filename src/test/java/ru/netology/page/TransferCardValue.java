@@ -1,48 +1,19 @@
 package ru.netology.page;
 
-import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.Keys;
+import ru.netology.data.DataHelper;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static org.openqa.selenium.Keys.SHIFT;
 
 public class TransferCardValue {
-
-    private SelenideElement heading = $("h1").shouldHave(text("Пополнение карты"));
-    private SelenideElement amountField = $("[data-test-id='amount'] input");
-    private SelenideElement whereFromField = $("[data-test-id='from'] input");
-    private SelenideElement whereToField = $("[data-test-id='to'] input");
-    private SelenideElement transferButton = $("[data-test-id='action-transfer']");
-    private SelenideElement cancelButton = $("[data-test-id='action-cancel']");
-    private SelenideElement errorNotification = $("[data-test-id='error-notification']");
-
-    public TransferCardValue() {
-        heading.shouldBe(visible);
-    }
-
-    public CardPage validTransfer(String amount, String from) {
-        amountField.val(amount);
-        whereFromField.val(from);
-        transferButton.click();
-        return new CardPage();
-    }
-
-    public TransferCardValue invalidTransfer(String amount, String from) {
-        amountField.val(amount);
-        whereFromField.val(from);
-        transferButton.click();
-        errorNotification.shouldHave(text("Ошибка"));
-        return new TransferCardValue();
-    }
-
-    public CardPage cancelTransfer(String amount, String from) {
-        amountField.val(amount);
-        whereFromField.val(from);
-        cancelButton.click();
-        return new CardPage();
-    }
-
-    public SelenideElement getToField() {
-        return whereToField;
+    public void transferMoney(DataHelper.Card from, String money) {
+        $("span[data-test-id= amount] input").click();
+        $("span[data-test-id= amount] input").sendKeys(Keys.chord(SHIFT, Keys.HOME), Keys.BACK_SPACE);
+        $("span[data-test-id= amount] input").setValue(money);
+        $("[data-test-id=\"from\"] input").click();
+        $("[data-test-id=\"from\"] input").sendKeys(Keys.END,Keys.chord(SHIFT, Keys.HOME), Keys.BACK_SPACE);
+        $("[data-test-id=\"from\"] input").setValue(from.getNumber());
+        $("[data-test-id= action-transfer]").click();
     }
 }
