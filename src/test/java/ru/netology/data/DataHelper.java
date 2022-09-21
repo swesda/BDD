@@ -32,11 +32,16 @@ public class DataHelper {
 
     @Value
     public static class Card {
-        String number;
-        String balance;
-        public String id;
+        private String id;
+        private String number;
+        private float balance;
     }
 
-    public static Card[] cards = {new Card("5559_0000_0000_0001", "10_000", "92df3f1c-a033-48e6-8390-206f6b1f56c0"),
-            new Card("5559_0000_0000_0002", "10_000", "0f3f5c2a-249e-4c3d-8287-09f7a039391d")};
+    public static Card getFirstCard() {
+        return new Card("92df3f1c-a033-48e6-8390-206f6b1f56c0","5559 0000 0000 0001", 10000);
+    }
+
+    public static Card getSecondCard() {
+        return new Card("0f3f5c2a-249e-4c3d-8287-09f7a039391d","5559 0000 0000 0002", 10000);
+    }
 }

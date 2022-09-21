@@ -28,25 +28,25 @@ public class TransferTest {
 
     @AfterEach
     public void returnCardBalancesToDefault() {
-        var balance = cardPage.getCardBalance(DataHelper.cards[0].getId());
+        var balance = cardPage.getCardBalance(DataHelper.getFirstCard());
         if (balance > 10000) {
             var difference = balance - 10000;
-            var transferPade = cardPage.transferCardValue(DataHelper.cards[1]);
-            transferPade.transferMoney(DataHelper.cards[0], String.valueOf(difference));
+            var transferPade = cardPage.transferCardValue(DataHelper.getSecondCard());
+            transferPade.transferMoney(DataHelper.getFirstCard(), String.valueOf(difference));
 
         } else {
             var difference = 10000 - balance;
-            var transferPade = cardPage.transferCardValue(DataHelper.cards[0]);
-            transferPade.transferMoney(DataHelper.cards[1], String.valueOf(difference));
+            var transferPade = cardPage.transferCardValue(DataHelper.getFirstCard());
+            transferPade.transferMoney(DataHelper.getSecondCard(), String.valueOf(difference));
         }
     }
 
     @Test
     void shouldTransferFromSecondCardToFirst () {
-        var transferPage = cardPage.transferCardValue(DataHelper.cards[0]);
-        transferPage.transferMoney(DataHelper.cards[1], "2500");
-        var balance0 = cardPage.getCardBalance(DataHelper.cards[0].getId());
-        var balance1 = cardPage.getCardBalance(DataHelper.cards[1].getId());
+        var transferPage = cardPage.transferCardValue(DataHelper.getFirstCard());
+        transferPage.transferMoney(DataHelper.getSecondCard(), "2500");
+        var balance0 = cardPage.getCardBalance(DataHelper.getFirstCard());
+        var balance1 = cardPage.getCardBalance(DataHelper.getSecondCard());
 
         assertEquals(12500, balance0);
         assertEquals(7500, balance1);
@@ -54,10 +54,10 @@ public class TransferTest {
 
     @Test
     void shouldTransferFromFirstCardToSecond () {
-        var transferPage = cardPage.transferCardValue(DataHelper.cards[1]);
-        transferPage.transferMoney(DataHelper.cards[0], "200");
-        var balance0 = cardPage.getCardBalance(DataHelper.cards[0].getId());
-        var balance1 = cardPage.getCardBalance(DataHelper.cards[1].getId());
+        var transferPage = cardPage.transferCardValue(DataHelper.getSecondCard());
+        transferPage.transferMoney(DataHelper.getFirstCard(), "200");
+        var balance0 = cardPage.getCardBalance(DataHelper.getFirstCard());
+        var balance1 = cardPage.getCardBalance(DataHelper.getSecondCard());
 
         assertEquals(9800, balance0);
         assertEquals(10200, balance1);
@@ -65,10 +65,10 @@ public class TransferTest {
 
     @Test
     void shouldTransferFromSecondCardToFirstFractionalAmountLess1000RUB () {
-        var transferPage = cardPage.transferCardValue(DataHelper.cards[0]);
-        transferPage.transferMoney(DataHelper.cards[1], "150.5");
-        var balance0 = cardPage.getCardBalance(DataHelper.cards[0].getId());
-        var balance1 = cardPage.getCardBalance(DataHelper.cards[1].getId());
+        var transferPage = cardPage.transferCardValue(DataHelper.getFirstCard());
+        transferPage.transferMoney(DataHelper.getSecondCard(), "150.5");
+        var balance0 = cardPage.getCardBalance(DataHelper.getFirstCard());
+        var balance1 = cardPage.getCardBalance(DataHelper.getSecondCard());
 
         assertEquals(10150.5, balance0);
         assertEquals(9849.5, balance1);
@@ -76,10 +76,10 @@ public class TransferTest {
 
     @Test
     void shouldTransferFromSecondCardToFirstFractionalAmountMore1000RUB () {
-        var transferPage = cardPage.transferCardValue(DataHelper.cards[0]);
-        transferPage.transferMoney(DataHelper.cards[1], "4500.5");
-        var balance0 = cardPage.getCardBalance(DataHelper.cards[0].getId());
-        var balance1 = cardPage.getCardBalance(DataHelper.cards[1].getId());
+        var transferPage = cardPage.transferCardValue(DataHelper.getFirstCard());
+        transferPage.transferMoney(DataHelper.getSecondCard(), "4500.5");
+        var balance0 = cardPage.getCardBalance(DataHelper.getFirstCard());
+        var balance1 = cardPage.getCardBalance(DataHelper.getSecondCard());
 
         assertEquals(14500.5, balance0);
         assertEquals(5499.5, balance1);
@@ -87,10 +87,10 @@ public class TransferTest {
 
     @Test
     void shouldNullTransferMoneyFromOneCardToAnother() {
-        var transferPage = cardPage.transferCardValue(DataHelper.cards[0]);
-        transferPage.transferMoney(DataHelper.cards[1], "0");
-        var balance0 = cardPage.getCardBalance(DataHelper.cards[0].getId());
-        var balance1 = cardPage.getCardBalance(DataHelper.cards[1].getId());
+        var transferPage = cardPage.transferCardValue(DataHelper.getFirstCard());
+        transferPage.transferMoney(DataHelper.getSecondCard(), "0");
+        var balance0 = cardPage.getCardBalance(DataHelper.getFirstCard());
+        var balance1 = cardPage.getCardBalance(DataHelper.getSecondCard());
 
         assertEquals(10000, balance0);
         assertEquals(10000, balance1);
@@ -98,10 +98,10 @@ public class TransferTest {
 
     @Test
     void shouldNotTransferFromSecondCardToFirstOverCardBalance () {
-        var transferPage = cardPage.transferCardValue(DataHelper.cards[0]);
-        transferPage.transferMoney(DataHelper.cards[1], "40000");
-        var balance0 = cardPage.getCardBalance(DataHelper.cards[0].getId());
-        var balance1 = cardPage.getCardBalance(DataHelper.cards[1].getId());
+        var transferPage = cardPage.transferCardValue(DataHelper.getFirstCard());
+        transferPage.transferMoney(DataHelper.getSecondCard(), "40000");
+        var balance0 = cardPage.getCardBalance(DataHelper.getFirstCard());
+        var balance1 = cardPage.getCardBalance(DataHelper.getSecondCard());
 
         assertEquals(10000, balance0);
         assertEquals(10000, balance1);

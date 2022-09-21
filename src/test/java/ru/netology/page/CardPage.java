@@ -18,7 +18,7 @@ public class CardPage {
     private final String balanceStart = "баланс: ";
     private final String balanceFinish = " р.";
 
-    public CardPage(){
+    public CardPage() {
         heading.shouldBe(Condition.visible);
     }
 
@@ -27,15 +27,12 @@ public class CardPage {
         return new TransferCardValue();
     }
 
-    public int getCardBalance(String dataTestId) {
-        for (SelenideElement element : cards) {
-            val attr = element.attr("data-test-id");
-            if (Objects.equals(attr, dataTestId)) {
-                return extractBalance(element.text());
-            }
-        }
-        return -1;
+    public int getCardBalance(DataHelper.Card card) {
+        String text = $("[data-test-id =" + "'" + card.getId() + "']").getText();
+        return extractBalance(text);
     }
+
+
 
     private int extractBalance(String text) {
         val start = text.indexOf(balanceStart);
